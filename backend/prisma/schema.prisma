@@ -11,3 +11,62 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+enum Role {
+  ADMIN
+  NGO
+  VOLUNTEER
+  STUDENT
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role
+  createdAt DateTime @default(now())
+
+  ngo       NGO?
+  volunteer Volunteer?
+  student   Student?
+}
+
+model NGO {
+  id               Int     @id @default(autoincrement())
+  organizationName String
+  city             String
+  focusArea        String
+  verified         Boolean @default(false)
+
+  userId Int  @unique
+  user   User @relation(fields: [userId], references: [id])
+
+  students   Student[]
+  volunteers Volunteer[]
+}
+
+model Volunteer {
+  id         Int    @id @default(autoincrement())
+  subjects   String
+  totalHours Float  @default(0)
+  rating     Float  @default(0)
+
+  userId Int @unique
+  ngoId  Int
+
+  user User @relation(fields: [userId], references: [id])
+  ngo  NGO  @relation(fields: [ngoId], references: [id])
+}
+
+model Student {
+  id    Int    @id @default(autoincrement())
+  age   Int
+  grade String
+
+  userId Int @unique
+  ngoId  Int
+
+  user User @relation(fields: [userId], references: [id])
+  ngo  NGO  @relation(fields: [ngoId], references: [id])
+}
