@@ -4,3 +4,4 @@ dist
 .env
 .env.local
 coverage
+/src/generated/prisma
