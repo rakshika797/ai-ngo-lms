@@ -5,14 +5,17 @@ import { useRouter } from "next/navigation";
 
 import toast from "react-hot-toast";
 
-import { loginUser } from "@/services/authService";
+import { registerUser } from "@/services/authService";
 import { useAuth } from "@/context/AuthContext";
-type LoginFormData = {
+
+type RegisterFormData = {
+  name: string;
   email: string;
   password: string;
+  role: string;
 };
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const { login } = useAuth();
   const router = useRouter();
 
@@ -20,23 +23,23 @@ export default function LoginPage() {
     register,
     handleSubmit,
     reset,
-  } = useForm<LoginFormData>();
+  } = useForm<RegisterFormData>();
 
-  const onSubmit = async (data: LoginFormData) => {
+  const onSubmit = async (
+    data: RegisterFormData
+  ) => {
     try {
-      const response = await loginUser(data);
+      await registerUser(data);
 
-      login(response.accessToken);
-
-      toast.success("Login successful");
+      toast.success("Registration successful");
 
       reset();
 
-      router.push("/dashboard");
+      router.push("/login");
     } catch (error: any) {
       toast.error(
         error?.response?.data?.message ||
-          "Login failed"
+          "Registration failed"
       );
     }
   };
@@ -48,8 +51,15 @@ export default function LoginPage() {
         className="w-full max-w-md p-6 border rounded-lg shadow"
       >
         <h1 className="text-3xl font-bold mb-6">
-          Login
+          Register
         </h1>
+
+        <input
+          type="text"
+          placeholder="Name"
+          {...register("name")}
+          className="w-full border p-3 rounded mb-4"
+        />
 
         <input
           type="email"
@@ -65,11 +75,32 @@ export default function LoginPage() {
           className="w-full border p-3 rounded mb-4"
         />
 
+        <select
+          {...register("role")}
+          className="w-full border p-3 rounded mb-4"
+        >
+          <option value="">
+            Select Role
+          </option>
+
+          <option value="STUDENT">
+            Student
+          </option>
+
+          <option value="NGO">
+            NGO
+          </option>
+
+          <option value="VOLUNTEER">
+            Volunteer
+          </option>
+        </select>
+
         <button
           type="submit"
           className="w-full bg-black text-white p-3 rounded"
         >
-          Login
+          Register
         </button>
       </form>
     </div>

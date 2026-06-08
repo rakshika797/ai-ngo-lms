@@ -1,7 +1,13 @@
+"use client";
+
+import ProtectedRoute from "@/components/ProtectedRoute";
+
 export default function DashboardPage() {
   return (
-    <div className="p-10 text-3xl font-bold">
-      Dashboard Page
-    </div>
+    <ProtectedRoute>
+      <div className="p-10 text-3xl font-bold">
+        Dashboard Page
+      </div>
+    </ProtectedRoute>
   );
 }
