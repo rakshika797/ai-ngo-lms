@@ -1,8 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -12,38 +7,28 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Role {
-  ADMIN
-  NGO
-  VOLUNTEER
-  STUDENT
-}
-
 model User {
-  id        Int      @id @default(autoincrement())
+  id        Int        @id @default(autoincrement())
   name      String
-  email     String   @unique
+  email     String     @unique
   password  String
   role      Role
-  createdAt DateTime @default(now())
-
+  createdAt DateTime   @default(now())
   ngo       NGO?
-  volunteer Volunteer?
   student   Student?
+  volunteer Volunteer?
 }
 
 model NGO {
-  id               Int     @id @default(autoincrement())
+  id               Int         @id @default(autoincrement())
   organizationName String
   city             String
   focusArea        String
-  verified         Boolean @default(false)
-
-  userId Int  @unique
-  user   User @relation(fields: [userId], references: [id])
-
-  students   Student[]
-  volunteers Volunteer[]
+  verified         Boolean     @default(false)
+  userId           Int         @unique
+  user             User        @relation(fields: [userId], references: [id])
+  students         Student[]
+  volunteers       Volunteer[]
 }
 
 model Volunteer {
@@ -51,22 +36,25 @@ model Volunteer {
   subjects   String
   totalHours Float  @default(0)
   rating     Float  @default(0)
-
-  userId Int @unique
-  ngoId  Int
-
-  user User @relation(fields: [userId], references: [id])
-  ngo  NGO  @relation(fields: [ngoId], references: [id])
+  userId     Int    @unique
+  ngoId      Int
+  ngo        NGO    @relation(fields: [ngoId], references: [id])
+  user       User   @relation(fields: [userId], references: [id])
 }
 
 model Student {
-  id    Int    @id @default(autoincrement())
-  age   Int
-  grade String
-
-  userId Int @unique
+  id     Int    @id @default(autoincrement())
+  age    Int
+  grade  String
+  userId Int    @unique
   ngoId  Int
+  ngo    NGO    @relation(fields: [ngoId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
+}
 
-  user User @relation(fields: [userId], references: [id])
-  ngo  NGO  @relation(fields: [ngoId], references: [id])
+enum Role {
+  ADMIN
+  NGO
+  VOLUNTEER
+  STUDENT
 }
