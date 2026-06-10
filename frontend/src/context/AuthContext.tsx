@@ -8,12 +8,14 @@ import {
 } from "react";
 
 type User = {
-  token: string | null;
+  token: string;
+  role: string;
+  email: string;
 };
 
 type AuthContextType = {
   user: User | null;
-  login: (token: string) => void;
+  login: (token: string, role: string, email: string) => void;
   logout: () => void;
 };
 
@@ -30,29 +32,64 @@ export const AuthProvider = ({
 
   useEffect(() => {
     const token =
-      localStorage.getItem("accessToken");
+  localStorage.getItem("accessToken");
 
-    if (token) {
-      setUser({ token });
-    }
-  }, []);
+const role =
+  localStorage.getItem("role");
 
-  const login = (token: string) => {
-    localStorage.setItem(
-      "accessToken",
-      token
-    );
+const email =
+  localStorage.getItem("email");
 
-    setUser({ token });
-  };
+if (token && role && email) {
+  setUser({
+    token,
+    role,
+    email,
+  });
+}}, []);
+
+ const login = (
+  token: string,
+  role: string,
+  email: string
+) => {
+  localStorage.setItem(
+    "accessToken",
+    token
+  );
+
+  localStorage.setItem(
+    "role",
+    role
+  );
+
+  localStorage.setItem(
+    "email",
+    email
+  );
+
+  setUser({
+    token,
+    role,
+    email,
+  });
+};
 
   const logout = () => {
-    localStorage.removeItem(
-      "accessToken"
-    );
+  localStorage.removeItem(
+    "accessToken"
+  );
 
-    setUser(null);
-  };
+  localStorage.removeItem(
+    "role"
+  );
+
+  localStorage.removeItem(
+    "email"
+  );
+
+  setUser(null);
+};
 
   return (
     <AuthContext.Provider

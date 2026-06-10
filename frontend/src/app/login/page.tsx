@@ -26,13 +26,29 @@ export default function LoginPage() {
     try {
       const response = await loginUser(data);
 
-      login(response.accessToken);
+      login(
+  response.accessToken,
+  response.user.role,
+  response.user.email
+);
 
       toast.success("Login successful");
 
       reset();
 
-      router.push("/dashboard");
+      const role = response.user.role;
+
+if (role === "ADMIN") {
+  router.push("/admin");
+} else if (role === "NGO") {
+  router.push("/ngo");
+} else if (role === "STUDENT") {
+  router.push("/student");
+} else if (role === "VOLUNTEER") {
+  router.push("/volunteer");
+} else {
+  router.push("/dashboard");
+}
     } catch (error: any) {
       toast.error(
         error?.response?.data?.message ||

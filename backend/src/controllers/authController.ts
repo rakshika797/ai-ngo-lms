@@ -109,11 +109,16 @@ export const loginUser = asyncHandler(
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
 
-      res.status(200).json({
-        message: "Login successful",
-        accessToken,
-        user,
-      });
+     res.status(200).json({
+  message: "Login successful",
+  accessToken,
+  user: {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+  },
+});
     } catch (error) {
       console.log(error);
 
