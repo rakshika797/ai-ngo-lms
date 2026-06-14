@@ -1,15 +1,19 @@
 type Props = {
   title: string;
   value: string;
+  color: string;
 };
 
 export default function StatsCard({
   title,
   value,
+  color,
 }: Props) {
   return (
-    <div className="bg-white rounded-2xl shadow p-6">
-      <h3 className="text-gray-500">
+    <div
+      className={`rounded-2xl p-6 shadow ${color}`}
+    >
+      <h3 className="text-gray-700">
         {title}
       </h3>
 
