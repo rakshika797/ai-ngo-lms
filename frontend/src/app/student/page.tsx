@@ -7,6 +7,8 @@ import StatsCard from "@/components/StatsCard";
 import ContinueLearning from "@/components/ContinueLearning";
 import RecentCertificates from "@/components/RecentCertificates";
 import RecentActivity from "@/components/RecentActivity";
+import DashboardHeader from "@/components/DashboardHeader";
+import ProfileWidget from "@/components/ProfileWidget";
 
 export default function StudentPage() {
   return (
@@ -15,6 +17,8 @@ export default function StudentPage() {
         <Sidebar />
 
         <main className="flex-1 p-8">
+          <DashboardHeader />
+          <ProfileWidget />
           <WelcomeBanner />
 
           <div className="grid grid-cols-4 gap-4 mt-8">

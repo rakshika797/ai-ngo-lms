@@ -19,7 +19,7 @@ export default function Sidebar() {
       <nav className="mt-10 space-y-4">
         <Link
           href="/student"
-          className="flex items-center gap-3 p-3 rounded-lg hover:bg-purple-100"
+          className="flex items-center gap-3 p-3 rounded-lg bg-purple-100 text-purple-700 font-semibold"
         >
           <LayoutDashboard size={20} />
           Dashboard

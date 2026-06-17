@@ -11,11 +11,12 @@ type User = {
   token: string;
   role: string;
   email: string;
+  name:string;
 };
 
 type AuthContextType = {
   user: User | null;
-  login: (token: string, role: string, email: string) => void;
+  login: (token: string, role: string, email: string, name: string) => void;
   logout: () => void;
 };
 
@@ -40,18 +41,23 @@ const role =
 const email =
   localStorage.getItem("email");
 
-if (token && role && email) {
+const name =
+  localStorage.getItem("name");
+
+if (token && role && email && name) {
   setUser({
     token,
     role,
     email,
+    name,
   });
 }}, []);
 
  const login = (
   token: string,
   role: string,
-  email: string
+  email: string,
+  name: string
 ) => {
   localStorage.setItem(
     "accessToken",
@@ -68,10 +74,13 @@ if (token && role && email) {
     email
   );
 
+  localStorage.setItem("name", name);
+
   setUser({
     token,
     role,
     email,
+    name,
   });
 };
 

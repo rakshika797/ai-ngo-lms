@@ -29,7 +29,8 @@ export default function LoginPage() {
       login(
   response.accessToken,
   response.user.role,
-  response.user.email
+  response.user.email,
+  response.user.name
 );
 
       toast.success("Login successful");
