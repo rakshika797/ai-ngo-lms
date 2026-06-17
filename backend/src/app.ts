@@ -7,6 +7,7 @@ import ngoRoutes from "./routes/ngoRoutes";
 import studentRoutes from "./routes/studentRoutes";
 import { errorHandler } from "./middleware/errorMiddleware";
 import cookieParser from "cookie-parser";
+import programRoutes from "./routes/programRoutes";
 const app = express();
 
 app.use(
@@ -23,6 +24,7 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/ngo", ngoRoutes);
 app.use("/api/student", studentRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/programs", programRoutes);
 app.get("/", (req, res) => {
   res.send("API Running...");
 });

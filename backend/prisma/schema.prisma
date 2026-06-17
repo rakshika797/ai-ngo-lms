@@ -19,6 +19,17 @@ model User {
   volunteer Volunteer?
 }
 
+model Program {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String
+  duration    String
+  maxStudents Int
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
 model NGO {
   id               Int         @id @default(autoincrement())
   organizationName String
