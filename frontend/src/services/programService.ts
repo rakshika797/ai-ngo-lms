@@ -9,3 +9,16 @@ export const getPrograms = async () => {
 
   return response.data;
 };
+export const createProgram = async (
+  data: {
+    name: string;
+    description: string;
+    duration: string;
+    maxStudents: number;
+  }
+) => {
+  const response =
+    await axios.post(API_URL, data);
+
+  return response.data;
+};

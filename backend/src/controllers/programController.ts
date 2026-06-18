@@ -18,7 +18,7 @@ export const createProgram = async (
         name,
         description,
         duration,
-        maxStudents,
+        maxStudents: Number(maxStudents),
       },
     });
 
@@ -27,10 +27,13 @@ export const createProgram = async (
       program,
     });
   } catch (error) {
-    res.status(500).json({
-      message: "Server error",
-    });
-  }
+  console.error(error);
+
+  res.status(500).json({
+    message: "Server error",
+    error,
+  });
+}
   
 };
 export const getPrograms = async (

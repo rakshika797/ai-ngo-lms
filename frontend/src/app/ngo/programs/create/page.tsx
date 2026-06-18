@@ -2,6 +2,8 @@
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { createProgram }
+from "@/services/programService";
 type ProgramFormData = {
   name: string;
   description: string;
@@ -18,10 +20,11 @@ export default function CreateProgramPage() {
     reset,
   } = useForm<ProgramFormData>();
 
-  const onSubmit = (
-    data: ProgramFormData
-  ) => {
-    console.log(data);
+  const onSubmit = async (
+  data: ProgramFormData
+) => {
+  try {
+    await createProgram(data);
 
     toast.success(
       "Program created successfully"
@@ -30,7 +33,14 @@ export default function CreateProgramPage() {
     reset();
 
     router.push("/ngo/programs");
-  };
+  } catch (error) {
+    console.error(error);
+
+    toast.error(
+      "Failed to create program"
+    );
+  }
+};
   return (
     <div className="min-h-screen bg-gray-50 p-10">
 
@@ -61,11 +71,12 @@ export default function CreateProgramPage() {
               Description
             </label>
 
-            <textarea
-              className="w-full border rounded-lg p-3"
-              rows={4}
-              placeholder="Program description"
-            />
+           <textarea
+  {...register("description")}
+  className="w-full border rounded-lg p-3"
+  rows={4}
+  placeholder="Program description"
+/>
           </div>
 
           <div>
@@ -77,6 +88,7 @@ export default function CreateProgramPage() {
               type="text"
               className="w-full border rounded-lg p-3"
               placeholder="e.g. 12 Weeks"
+              {...register("duration")}
             />
           </div>
 
