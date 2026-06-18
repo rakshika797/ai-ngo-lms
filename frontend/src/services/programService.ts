@@ -22,3 +22,13 @@ export const createProgram = async (
 
   return response.data;
 };
+
+export const getProgramById =
+  async (id: number) => {
+    const response =
+      await axios.get(
+        `${API_URL}/${id}`
+      );
+
+    return response.data;
+  };

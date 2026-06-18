@@ -61,20 +61,28 @@ export default function NGOPage() {
 
         <div className="grid grid-cols-3 gap-4">
           <ProgramCard
-            title="Web Development"
-            students={40} />
+  id={1}
+  title="Web Development"
+  students={40}
+/>
 
-          <ProgramCard
-            title="Digital Literacy"
-            students={30} />
+<ProgramCard
+  id={2}
+  title="Digital Literacy"
+  students={30}
+/>
 
-          <ProgramCard
-            title="Career Readiness"
-            students={54} />
-            <ApplicationTable />
+<ProgramCard
+  id={3}
+  title="Career Readiness"
+  students={54}
+/>
+           
         </div>
+         <ApplicationTable />
         </div>
       </main>
+      
     </div>
       </>
     

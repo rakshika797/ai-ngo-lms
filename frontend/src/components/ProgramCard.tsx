@@ -1,11 +1,12 @@
 
 import Link from "next/link";
 type Props = {
+  id: number;
   title: string;
   students: number;
 };
-
 export default function ProgramCard({
+  id,
   title,
   students,
 }: Props) {
@@ -21,7 +22,7 @@ export default function ProgramCard({
 
       
       <Link
-  href={`/ngo/programs/manage`}
+  href={`/ngo/programs/${id}`}
   className="inline-block mt-4 bg-purple-500 text-white px-4 py-2 rounded-lg"
 >
   Manage
