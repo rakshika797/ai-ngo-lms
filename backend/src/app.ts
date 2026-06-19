@@ -9,6 +9,8 @@ import { errorHandler } from "./middleware/errorMiddleware";
 import cookieParser from "cookie-parser";
 import programRoutes from "./routes/programRoutes";
 const app = express();
+import applicationRoutes
+from "./routes/applicationRoutes";
 
 app.use(
   cors({
@@ -28,5 +30,6 @@ app.use("/api/programs", programRoutes);
 app.get("/", (req, res) => {
   res.send("API Running...");
 });
+app.use( "/api/applications",applicationRoutes);
 
 export default app;
