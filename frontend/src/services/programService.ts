@@ -32,3 +32,30 @@ export const getProgramById =
 
     return response.data;
   };
+
+  export const updateProgram = async (
+  id: number,
+  data: {
+    name: string;
+    description: string;
+    duration: string;
+    maxStudents: number;
+  }
+) => {
+  const response = await axios.put(
+    `${API_URL}/${id}`,
+    data
+  );
+
+  return response.data;
+};
+
+export const deleteProgram = async (
+  id: number
+) => {
+  const response = await axios.delete(
+    `${API_URL}/${id}`
+  );
+
+  return response.data;
+};
