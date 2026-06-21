@@ -63,7 +63,7 @@ export const getApplications =
     }
   };
 
-  export const updateApplicationStatus =
+ export const updateApplicationStatus =
   async (
     req: Request,
     res: Response
@@ -83,6 +83,19 @@ export const getApplications =
             status,
           },
         });
+
+      if (
+        status === "APPROVED"
+      ) {
+        await prisma.enrollment.create({
+          data: {
+            studentId:
+              application.studentId,
+            programId:
+              application.programId,
+          },
+        });
+      }
 
       res.status(200).json({
         message:

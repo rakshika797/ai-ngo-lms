@@ -27,6 +27,7 @@ export default function LoginPage() {
       const response = await loginUser(data);
 
       login(
+  response.user.id,
   response.accessToken,
   response.user.role,
   response.user.email,

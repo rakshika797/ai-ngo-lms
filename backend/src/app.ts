@@ -11,6 +11,8 @@ import programRoutes from "./routes/programRoutes";
 const app = express();
 import applicationRoutes
 from "./routes/applicationRoutes";
+import enrollmentRoutes
+from "./routes/enrollmentRoutes";
 
 app.use(
   cors({
@@ -31,5 +33,5 @@ app.get("/", (req, res) => {
   res.send("API Running...");
 });
 app.use( "/api/applications",applicationRoutes);
-
+app.use( "/api/enrollments",enrollmentRoutes);
 export default app;

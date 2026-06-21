@@ -8,6 +8,7 @@ import {
 } from "react";
 
 type User = {
+  id: string;
   token: string;
   role: string;
   email: string;
@@ -16,7 +17,7 @@ type User = {
 
 type AuthContextType = {
   user: User | null;
-  login: (token: string, role: string, email: string, name: string) => void;
+  login: (id: string, token: string, role: string, email: string, name: string) => void;
   logout: () => void;
 };
 
@@ -32,7 +33,10 @@ export const AuthProvider = ({
     useState<User | null>(null);
 
   useEffect(() => {
-    const token =
+    const id =
+  localStorage.getItem("userId");
+
+const token =
   localStorage.getItem("accessToken");
 
 const role =
@@ -44,8 +48,9 @@ const email =
 const name =
   localStorage.getItem("name");
 
-if (token && role && email && name) {
+if (id && token && role && email && name) {
   setUser({
+    id,
     token,
     role,
     email,
@@ -54,11 +59,17 @@ if (token && role && email && name) {
 }}, []);
 
  const login = (
+  id: string,
   token: string,
   role: string,
   email: string,
   name: string
 ) => {
+  localStorage.setItem(
+    "userId",
+    id
+  );
+
   localStorage.setItem(
     "accessToken",
     token
@@ -77,6 +88,7 @@ if (token && role && email && name) {
   localStorage.setItem("name", name);
 
   setUser({
+    id,
     token,
     role,
     email,
@@ -85,6 +97,10 @@ if (token && role && email && name) {
 };
 
   const logout = () => {
+  localStorage.removeItem(
+    "userId"
+  );
+
   localStorage.removeItem(
     "accessToken"
   );
@@ -95,6 +111,10 @@ if (token && role && email && name) {
 
   localStorage.removeItem(
     "email"
+  );
+
+  localStorage.removeItem(
+    "name"
   );
 
   setUser(null);

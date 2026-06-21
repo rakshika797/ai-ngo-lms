@@ -18,6 +18,7 @@ model User {
   student   Student?
   volunteer Volunteer?
   applications Application[]
+  enrollments Enrollment[]
 }
 
 model Program {
@@ -30,6 +31,7 @@ model Program {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   applications Application[]
+  enrollments Enrollment[]
 }
 
 model NGO {
@@ -78,6 +80,19 @@ model Application {
   student   User     @relation(fields: [studentId], references: [id])
 
   program   Program  @relation(fields: [programId], references: [id])
+}
+
+model Enrollment {
+  id         Int      @id @default(autoincrement())
+
+  studentId  Int
+  programId  Int
+
+  enrolledAt DateTime @default(now())
+
+  student    User     @relation(fields: [studentId], references: [id])
+
+  program    Program  @relation(fields: [programId], references: [id])
 }
 
 enum Role {
