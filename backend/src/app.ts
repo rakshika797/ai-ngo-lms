@@ -13,6 +13,8 @@ import applicationRoutes
 from "./routes/applicationRoutes";
 import enrollmentRoutes
 from "./routes/enrollmentRoutes";
+import certificateRoutes
+from "./routes/certificateRoutes";
 
 app.use(
   cors({
@@ -34,4 +36,5 @@ app.get("/", (req, res) => {
 });
 app.use( "/api/applications",applicationRoutes);
 app.use( "/api/enrollments",enrollmentRoutes);
+app.use( "/api/certificates",certificateRoutes);
 export default app;

@@ -9,6 +9,9 @@ import RecentCertificates from "@/components/RecentCertificates";
 import RecentActivity from "@/components/RecentActivity";
 import DashboardHeader from "@/components/DashboardHeader";
 import ProfileWidget from "@/components/ProfileWidget";
+import {
+  getStudentCertificates,
+} from "@/services/certificateService";
 
 import { useAuth } from "@/context/AuthContext";
 
@@ -44,7 +47,27 @@ export default function StudentPage() {
     fetchEnrollments();
   }, [user]);
 
-  
+  const [certificates, setCertificates] = useState<any[]>([]);
+
+  useEffect(() => {
+  if (!user?.id) return;
+
+  const fetchCertificates =
+    async () => {
+      try {
+        const data =
+          await getStudentCertificates(
+            user.id
+          );
+
+        setCertificates(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+  fetchCertificates();
+}, [user]);
 
   return (
     <ProtectedRoute>
@@ -72,10 +95,12 @@ export default function StudentPage() {
             />
 
             <StatsCard
-              title="Certificates"
-              value="2"
-              color="bg-pink-100"
-            />
+            title="Certificates"
+            value={
+               certificates.length.toString()
+             }
+             color="bg-pink-100"
+          />
 
             <StatsCard
               title="Hours"

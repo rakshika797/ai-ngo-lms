@@ -8,30 +8,31 @@ datasource db {
 }
 
 model User {
-  id        Int        @id @default(autoincrement())
-  name      String
-  email     String     @unique
-  password  String
-  role      Role
-  createdAt DateTime   @default(now())
-  ngo       NGO?
-  student   Student?
-  volunteer Volunteer?
+  id           Int           @id @default(autoincrement())
+  name         String
+  email        String        @unique
+  password     String
+  role         Role
+  createdAt    DateTime      @default(now())
   applications Application[]
-  enrollments Enrollment[]
+  certificates Certificate[]
+  enrollments  Enrollment[]
+  ngo          NGO?
+  student      Student?
+  volunteer    Volunteer?
 }
 
 model Program {
-  id          Int      @id @default(autoincrement())
-  name        String
-  description String
-  duration    String
-  maxStudents Int
-
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id           Int           @id @default(autoincrement())
+  name         String
+  description  String
+  duration     String
+  maxStudents  Int
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
   applications Application[]
-  enrollments Enrollment[]
+  certificates Certificate[]
+  enrollments  Enrollment[]
 }
 
 model NGO {
@@ -69,30 +70,30 @@ model Student {
 
 model Application {
   id        Int      @id @default(autoincrement())
-
   studentId Int
   programId Int
-
   status    String   @default("PENDING")
-
   createdAt DateTime @default(now())
-
-  student   User     @relation(fields: [studentId], references: [id])
-
   program   Program  @relation(fields: [programId], references: [id])
+  student   User     @relation(fields: [studentId], references: [id])
 }
 
 model Enrollment {
   id         Int      @id @default(autoincrement())
-
   studentId  Int
   programId  Int
-
   enrolledAt DateTime @default(now())
-
-  student    User     @relation(fields: [studentId], references: [id])
-
   program    Program  @relation(fields: [programId], references: [id])
+  student    User     @relation(fields: [studentId], references: [id])
+}
+
+model Certificate {
+  id        Int      @id @default(autoincrement())
+  studentId Int
+  programId Int
+  issuedAt  DateTime @default(now())
+  program   Program  @relation(fields: [programId], references: [id])
+  student   User     @relation(fields: [studentId], references: [id])
 }
 
 enum Role {
