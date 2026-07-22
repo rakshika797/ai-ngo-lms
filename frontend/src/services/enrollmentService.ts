@@ -1,14 +1,11 @@
 import axios from "axios";
 
-const API_URL =
-  "http://localhost:5000/api/enrollments";
+import api from "./apiService";
 
 export const getStudentEnrollments =
   async (studentId: string | number) => {
     const response =
-      await axios.get(
-        `${API_URL}/student/${studentId}`
-      );
+      await api.get(`/enrollments/student/${studentId}`);
 
     return response.data;
   };
@@ -16,7 +13,9 @@ export const getStudentEnrollments =
 export const getAllEnrollments =
   async () => {
     const response =
-      await axios.get(API_URL);
+      await api.get(`/enrollments`);
 
     return response.data;
   };
+
+   

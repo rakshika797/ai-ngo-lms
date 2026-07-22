@@ -1,7 +1,6 @@
 import axios from "axios";
 
-const API_URL =
-  "http://localhost:5000/api/ai";
+import api from "./apiService";
 
 export const analyzeSkillGap =
   async (
@@ -9,8 +8,8 @@ export const analyzeSkillGap =
     desiredRole: string
   ) => {
     const response =
-      await axios.post(
-        `${API_URL}/skill-gap`,
+      await api.post(
+        `/skill-gap`,
         {
           currentSkills,
           desiredRole,

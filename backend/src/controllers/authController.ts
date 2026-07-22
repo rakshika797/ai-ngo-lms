@@ -56,6 +56,9 @@ export const loginUser = asyncHandler(
       const { email, password } = req.body;
 
       // Find user
+      const users = await prisma.user.findMany();
+
+console.log(users);
       const user = await prisma.user.findUnique({
         where: {
           email,

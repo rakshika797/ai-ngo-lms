@@ -1,6 +1,4 @@
 "use client";
-
-import ProtectedRoute from "@/components/ProtectedRoute";
 import Sidebar from "@/components/Sidebar";
 import WelcomeBanner from "@/components/WelcomeBanner";
 import StatsCard from "@/components/StatsCard";
@@ -20,6 +18,7 @@ import { useEffect, useState } from "react";
 import {
   getStudentEnrollments,
 } from "@/services/enrollmentService";
+import RoleProtectedRoute from "@/components/RoleProtectedRoute";
 
 export default function StudentPage() {
   const { user } = useAuth();
@@ -61,7 +60,7 @@ const progress = Math.min(
 );
 if (loading) {
   return (
-    <ProtectedRoute>
+    <RoleProtectedRoute allowedRole="STUDENT">
       <div className="flex items-center justify-center min-h-screen bg-gray-50">
         <div className="flex flex-col items-center">
           <div className="h-12 w-12 rounded-full border-4 border-blue-500 border-t-transparent animate-spin"></div>
@@ -71,11 +70,11 @@ if (loading) {
           </p>
         </div>
       </div>
-    </ProtectedRoute>
+    </RoleProtectedRoute>
   );
 }
   return (
-    <ProtectedRoute>
+    <RoleProtectedRoute allowedRole="STUDENT">
       <div className="flex bg-gray-50 min-h-screen">
         <Sidebar />
 
@@ -159,6 +158,6 @@ if (loading) {
           </div>
         </main>
       </div>
-    </ProtectedRoute>
+    </RoleProtectedRoute>
   );
 }

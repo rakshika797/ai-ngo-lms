@@ -1,11 +1,8 @@
-import axios from "axios";
-
-const API_URL =
-  "http://localhost:5000/api/programs";
+import api from "./apiService";
 
 export const getPrograms = async () => {
   const response =
-    await axios.get(API_URL);
+    await api.get("/programs");
 
   return response.data;
 };
@@ -18,7 +15,7 @@ export const createProgram = async (
   }
 ) => {
   const response =
-    await axios.post(API_URL, data);
+    await api.post("/programs", data);
 
   return response.data;
 };
@@ -26,8 +23,8 @@ export const createProgram = async (
 export const getProgramById =
   async (id: number) => {
     const response =
-      await axios.get(
-        `${API_URL}/${id}`
+      await api.get(
+        `/programs/${id}`
       );
 
     return response.data;
@@ -42,8 +39,8 @@ export const getProgramById =
     maxStudents: number;
   }
 ) => {
-  const response = await axios.put(
-    `${API_URL}/${id}`,
+  const response = await api.put(
+    `/programs/${id}`,
     data
   );
 
@@ -53,8 +50,8 @@ export const getProgramById =
 export const deleteProgram = async (
   id: number
 ) => {
-  const response = await axios.delete(
-    `${API_URL}/${id}`
+  const response = await api.delete(
+    `/programs/${id}`
   );
 
   return response.data;

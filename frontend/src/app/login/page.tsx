@@ -39,7 +39,7 @@ export default function LoginPage() {
       reset();
 
       const role = response.user.role;
-
+console.log(response.user);
 if (role === "ADMIN") {
   router.push("/admin");
 } else if (role === "NGO") {

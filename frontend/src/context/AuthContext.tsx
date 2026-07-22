@@ -17,7 +17,14 @@ type User = {
 
 type AuthContextType = {
   user: User | null;
-  login: (id: string, token: string, role: string, email: string, name: string) => void;
+  loading: boolean;
+  login: (
+    id: string,
+    token: string,
+    role: string,
+    email: string,
+    name: string
+  ) => void;
   logout: () => void;
 };
 
@@ -29,8 +36,8 @@ export const AuthProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [user, setUser] =
-    useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const id =
@@ -56,6 +63,7 @@ if (id && token && role && email && name) {
     email,
     name,
   });
+  setLoading(false);
 }}, []);
 
  const login = (
@@ -124,6 +132,7 @@ if (id && token && role && email && name) {
     <AuthContext.Provider
       value={{
         user,
+        loading,
         login,
         logout,
       }}

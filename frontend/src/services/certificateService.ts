@@ -1,14 +1,9 @@
-import axios from "axios";
-
-const API_URL =
-  "http://localhost:5000/api/certificates";
+import api from "./apiService";
 
 export const getStudentCertificates =
   async (studentId: string | number) => {
     const response =
-      await axios.get(
-        `${API_URL}/student/${studentId}`
-      );
+     await api.get(`/certificates/student/${studentId}`);
 
     return response.data;
   };
@@ -16,8 +11,8 @@ export const getStudentCertificates =
 export const getCertificateById =
   async (id: number) => {
     const response =
-      await axios.get(
-        `${API_URL}/${id}`
+      await api.get(
+        `/certificates/${id}`
       );
 
     return response.data;
@@ -26,7 +21,7 @@ export const getCertificateById =
 export const getAllCertificates =
   async () => {
     const response =
-      await axios.get(API_URL);
+      await api.get(`/certificates`);
 
     return response.data;
   };

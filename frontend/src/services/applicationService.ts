@@ -1,12 +1,11 @@
 import axios from "axios";
 
-const API_URL =
-  "http://localhost:5000/api/applications";
+import api from "./apiService";
 
 export const getApplications =
   async () => {
     const response =
-      await axios.get(API_URL);
+      await api.get(`/applications`);
 
     return response.data;
   };
@@ -17,8 +16,8 @@ export const getApplications =
     status: string
   ) => {
     const response =
-      await axios.put(
-        `${API_URL}/${id}`,
+      await api.put(
+        `/applications/${id}`,
         { status }
       );
 
