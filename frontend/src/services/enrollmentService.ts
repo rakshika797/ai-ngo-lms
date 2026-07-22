@@ -12,3 +12,11 @@ export const getStudentEnrollments =
 
     return response.data;
   };
+
+export const getAllEnrollments =
+  async () => {
+    const response =
+      await axios.get(API_URL);
+
+    return response.data;
+  };

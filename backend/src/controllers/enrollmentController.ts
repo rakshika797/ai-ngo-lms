@@ -33,3 +33,29 @@ export const getStudentEnrollments =
       });
     }
   };
+
+   export const getAllEnrollments =
+  async (
+    req: Request,
+    res: Response
+  ) => {
+    try {
+      const enrollments =
+        await prisma.enrollment.findMany({
+          include: {
+            student: true,
+            program: true,
+          },
+        });
+
+      res.status(200).json(
+        enrollments
+      );
+    } catch (error) {
+      console.error(error);
+
+      res.status(500).json({
+        message: "Server error",
+      });
+    }
+  };

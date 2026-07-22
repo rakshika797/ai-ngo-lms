@@ -106,3 +106,29 @@ export const getStudentCertificates =
       });
     }
   };
+
+ export const getAllCertificates = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const certificates =
+      await prisma.certificate.findMany({
+        include: {
+          student: true,
+          program: true,
+        },
+        orderBy: {
+          issuedAt: "desc",
+        },
+      });
+
+    res.status(200).json(certificates);
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      message: "Server error",
+    });
+  }
+};

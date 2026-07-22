@@ -52,13 +52,13 @@ export default function NGOSidebar() {
           Applications
         </Link>
 
-        <Link
+        {/* <Link
           href="/ngo/certificates"
           className="flex items-center gap-3 p-3 rounded-lg hover:bg-purple-100"
         >
           <Award size={20} />
           Certificates
-        </Link>
+        </Link> */}
 
         <Link
           href="/ngo/profile"

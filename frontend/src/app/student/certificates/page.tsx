@@ -7,6 +7,9 @@ import {
   getStudentCertificates,
 } from "@/services/certificateService";
 import Link from "next/link";
+import ProtectedRoute from "@/components/ProtectedRoute";
+import LoadingScreen from "@/components/LoadingScreen";
+
 type Certificate = {
   id: number;
 
@@ -26,6 +29,7 @@ export default function CertificatesPage() {
   ] = useState<Certificate[]>(
     []
   );
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!user?.id) return;
@@ -33,6 +37,7 @@ export default function CertificatesPage() {
     const fetchCertificates =
       async () => {
         try {
+          setLoading(true);
           const data =
             await getStudentCertificates(
               user.id
@@ -41,12 +46,20 @@ export default function CertificatesPage() {
           setCertificates(data);
         } catch (error) {
           console.error(error);
+        } finally {
+          setLoading(false);
         }
       };
 
     fetchCertificates();
   }, [user]);
-
+if (loading) {
+  return (
+    <ProtectedRoute>
+      <LoadingScreen text="Loading Dashboard..." />
+    </ProtectedRoute>
+  );
+}
   return (
     <div className="p-10">
       <h1 className="text-4xl font-bold mb-8">

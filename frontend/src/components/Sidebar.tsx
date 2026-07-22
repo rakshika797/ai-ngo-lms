@@ -3,9 +3,8 @@
 import Link from "next/link";
 import {
   LayoutDashboard,
-  BookOpen,
   Award,
-  User,
+  Brain,
   LogOut,
 } from "lucide-react";
 
@@ -19,22 +18,14 @@ export default function Sidebar() {
       <nav className="mt-10 space-y-4">
         <Link
           href="/student"
-          className="flex items-center gap-3 p-3 rounded-lg bg-purple-100 text-purple-700 font-semibold"
+          className="flex items-center gap-3 p-3 rounded-lg hover:bg-purple-100"
         >
           <LayoutDashboard size={20} />
           Dashboard
         </Link>
 
         <Link
-          href="#"
-          className="flex items-center gap-3 p-3 rounded-lg hover:bg-purple-100"
-        >
-          <BookOpen size={20} />
-          My Courses
-        </Link>
-
-        <Link
-          href="#"
+          href="/student/certificates"
           className="flex items-center gap-3 p-3 rounded-lg hover:bg-purple-100"
         >
           <Award size={20} />
@@ -42,11 +33,11 @@ export default function Sidebar() {
         </Link>
 
         <Link
-          href="#"
+          href="/student/ai"
           className="flex items-center gap-3 p-3 rounded-lg hover:bg-purple-100"
         >
-          <User size={20} />
-          Profile
+          <Brain size={20} />
+          AI Career Assistant
         </Link>
 
         <button

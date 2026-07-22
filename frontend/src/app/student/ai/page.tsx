@@ -5,6 +5,8 @@ import { useState } from "react";
 import {
   analyzeSkillGap,
 } from "@/services/aiService";
+import ProtectedRoute from "@/components/ProtectedRoute";
+import LoadingScreen from "@/components/LoadingScreen";
 
 export default function AIPage() {
   const [
@@ -47,7 +49,13 @@ export default function AIPage() {
         setLoading(false);
       }
     };
-
+if (loading) {
+  return (
+    <ProtectedRoute>
+      <LoadingScreen text="Loading Dashboard..." />
+    </ProtectedRoute>
+  );
+}
   return (
     <div className="min-h-screen bg-gray-50 p-10">
 

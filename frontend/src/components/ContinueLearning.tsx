@@ -1,33 +1,38 @@
-export default function ContinueLearning() {
+type Props = {
+  enrollments: any[];
+};
+
+export default function ContinueLearning({
+  enrollments,
+}: Props) {
   return (
     <div className="bg-white rounded-2xl shadow p-6">
       <h2 className="text-2xl font-bold mb-6">
-        Continue Learning
+        Enrolled Programs
       </h2>
 
-      <div className="space-y-4">
-        <div>
-          <div className="flex justify-between">
-            <span>JavaScript Basics</span>
-            <span>75%</span>
-          </div>
+      {enrollments.length === 0 ? (
+        <p className="text-gray-500">
+          No enrolled programs yet.
+        </p>
+      ) : (
+        <div className="space-y-4">
+          {enrollments.map((enrollment) => (
+            <div
+              key={enrollment.id}
+              className="border rounded-lg p-4"
+            >
+              <h3 className="font-semibold">
+                {enrollment.program.name}
+              </h3>
 
-          <div className="h-2 bg-gray-200 rounded mt-2">
-            <div className="h-2 bg-purple-500 rounded w-3/4"></div>
-          </div>
+              <p className="text-sm text-gray-500 mt-1">
+                Status: Enrolled
+              </p>
+            </div>
+          ))}
         </div>
-
-        <div>
-          <div className="flex justify-between">
-            <span>React Fundamentals</span>
-            <span>60%</span>
-          </div>
-
-          <div className="h-2 bg-gray-200 rounded mt-2">
-            <div className="h-2 bg-purple-500 rounded w-3/5"></div>
-          </div>
-        </div>
-      </div>
+      )}
     </div>
   );
 }

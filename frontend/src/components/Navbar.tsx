@@ -35,9 +35,17 @@ export default function Navbar() {
           </>
         ) : (
           <>
-            <Link href="/dashboard">
-              Dashboard
-            </Link>
+           <Link
+  href={
+    user.role === "NGO"
+      ? "/ngo"
+      : user.role === "ADMIN"
+      ? "/admin"
+      : "/student"
+  }
+>
+  Dashboard
+</Link>
 
             <button
               onClick={handleLogout}

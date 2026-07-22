@@ -6,9 +6,73 @@ import StatsCard from "@/components/StatsCard";
 import ProgramCard from "@/components/ProgramCard";
 import ApplicationTable from "@/components/ApplicationTable";
 import Link from "next/dist/client/link";
+import { useEffect, useState } from "react";
 
+import { getPrograms } from "@/services/programService";
+import { getApplications } from "@/services/applicationService";
+import { getAllEnrollments } from "@/services/enrollmentService";
+import { getAllCertificates } from "@/services/certificateService";
+import LoadingScreen from "@/components/LoadingScreen";
 
 export default function NGOPage() {
+
+  const [programs, setPrograms] =
+    useState<any[]>([]);
+
+  const [applications, setApplications] =
+    useState<any[]>([]);
+
+  const [enrollments, setEnrollments] =
+    useState<any[]>([]);
+
+  const [certificates, setCertificates] =
+    useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+ 
+  useEffect(() => {
+    const fetchDashboard = async () => {
+      try {
+        setLoading(true);
+
+        const [
+          programsData,
+          applicationsData,
+          enrollmentsData,
+          certificatesData,
+        ] = await Promise.all([
+          getPrograms(),
+          getApplications(),
+          getAllEnrollments(),
+          getAllCertificates(),
+        ]);
+
+        console.log("Programs:", programsData);
+        console.log("Applications:", applicationsData);
+        console.log("Enrollments:", enrollmentsData);
+        console.log("Certificates:", certificatesData);
+
+        setPrograms(programsData);
+        setApplications(applicationsData);
+        setEnrollments(enrollmentsData);
+        setCertificates(certificatesData);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDashboard();
+  }, []);
+
+if (loading) {
+  return (
+    <ProtectedRoute>
+      <LoadingScreen text="Loading Dashboard..." />
+    </ProtectedRoute>
+  );
+}
+
   return (
    
       <><div className="flex bg-gray-50 min-h-screen">
@@ -36,23 +100,25 @@ export default function NGOPage() {
 </div>
         <div className="grid grid-cols-4 gap-4 mt-8">
         <StatsCard
-          title="Students"
-          value="124"
-          color="bg-yellow-100" />
+  title="Students"
+  value={enrollments.length.toString()}
+  color="bg-yellow-100"
+/>
 
         <StatsCard
           title="Programs"
-          value="8"
+          value={programs.length.toString()}
           color="bg-purple-100" />
 
         <StatsCard
-          title="Volunteers"
-          value="32"
-          color="bg-pink-100" />
+  title="Applications"
+  value={applications.length.toString()}
+  color="bg-pink-100"
+/>
 
         <StatsCard
           title="Certificates"
-          value="56"
+          value={certificates.length.toString()}
           color="bg-blue-100" />
       </div><div className="mt-10">
         <h2 className="text-2xl font-bold mb-4">
@@ -60,23 +126,14 @@ export default function NGOPage() {
         </h2>
 
         <div className="grid grid-cols-3 gap-4">
-          <ProgramCard
-  id={1}
-  title="Web Development"
-  students={40}
-/>
-
-<ProgramCard
-  id={2}
-  title="Digital Literacy"
-  students={30}
-/>
-
-<ProgramCard
-  id={3}
-  title="Career Readiness"
-  students={54}
-/>
+          {programs.map((program) => (
+  <ProgramCard
+    key={program.id}
+    id={program.id}
+    title={program.name}
+    students={program.maxStudents}
+  />
+))}
            
         </div>
          <ApplicationTable />

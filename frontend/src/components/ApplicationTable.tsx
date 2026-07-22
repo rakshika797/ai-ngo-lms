@@ -1,23 +1,39 @@
-export default function ApplicationTable() {
-  const applications = [
-    {
-      name: "Rahul Sharma",
-      program: "Web Development",
-      status: "Pending",
-    },
-    {
-      name: "Anjali Verma",
-      program: "Digital Literacy",
-      status: "Approved",
-    },
-    {
-      name: "Priya Singh",
-      program: "Career Readiness",
-      status: "Pending",
-    },
-  ];
+"use client";
 
-  
+import { useEffect, useState } from "react";
+
+import {
+  getApplications,
+  updateApplicationStatus,
+} from "@/services/applicationService";
+
+export default function ApplicationTable() {
+  const [applications, setApplications] = useState<any[]>([]);
+
+  const fetchApplications = async () => {
+    try {
+      const data = await getApplications();
+      setApplications(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchApplications();
+  }, []);
+
+  const handleStatus = async (
+    id: number,
+    status: "APPROVED" | "REJECTED"
+  ) => {
+    try {
+      await updateApplicationStatus(id, status);
+      fetchApplications();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="bg-white rounded-2xl shadow p-6 mt-10">
@@ -28,40 +44,86 @@ export default function ApplicationTable() {
       <table className="w-full">
         <thead>
           <tr className="border-b">
-            <th className="text-left py-3">
-              Name
-            </th>
-
-            <th className="text-left py-3">
-              Program
-            </th>
-
-            <th className="text-left py-3">
-              Status
-            </th>
+            <th className="text-left py-3">Name</th>
+            <th className="text-left py-3">Program</th>
+            <th className="text-left py-3">Status</th>
+            <th className="text-left py-3">Action</th>
           </tr>
         </thead>
 
         <tbody>
-          {applications.map(
-            (application, index) => (
+          {applications.length === 0 ? (
+            <tr>
+              <td
+                colSpan={4}
+                className="py-6 text-center text-gray-500"
+              >
+                No applications found.
+              </td>
+            </tr>
+          ) : (
+            applications.map((application) => (
               <tr
-                key={index}
+                key={application.id}
                 className="border-b"
               >
                 <td className="py-3">
-                  {application.name}
+                  {application.student.name}
                 </td>
 
                 <td className="py-3">
-                  {application.program}
+                  {application.program.name}
                 </td>
 
                 <td className="py-3">
-                  {application.status}
+                  <span
+                    className={
+                      application.status === "APPROVED"
+                        ? "text-green-600 font-semibold"
+                        : application.status === "REJECTED"
+                        ? "text-red-600 font-semibold"
+                        : "text-yellow-600 font-semibold"
+                    }
+                  >
+                    {application.status}
+                  </span>
+                </td>
+
+                <td className="py-3">
+                  {application.status === "PENDING" ? (
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() =>
+                          handleStatus(
+                            application.id,
+                            "APPROVED"
+                          )
+                        }
+                        className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded"
+                      >
+                        Approve
+                      </button>
+
+                      <button
+                        onClick={() =>
+                          handleStatus(
+                            application.id,
+                            "REJECTED"
+                          )
+                        }
+                        className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
+                      >
+                        Reject
+                      </button>
+                    </div>
+                  ) : (
+                    <span className="text-gray-500">
+                      No Action
+                    </span>
+                  )}
                 </td>
               </tr>
-            )
+            ))
           )}
         </tbody>
       </table>

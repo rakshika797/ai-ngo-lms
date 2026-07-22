@@ -26,49 +26,54 @@ export default function StudentPage() {
 
   const [enrollments, setEnrollments] =
     useState<any[]>([]);
+  const [certificates, setCertificates] =
+    useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!user?.id) return;
 
-    const fetchEnrollments =
-      async () => {
-        try {
-          const data =
-            await getStudentEnrollments(
-              user.id
-            );
-
-          setEnrollments(data);
-        } catch (error) {
-          console.error(error);
-        }
-      };
-
-    fetchEnrollments();
-  }, [user]);
-
-  const [certificates, setCertificates] = useState<any[]>([]);
-
-  useEffect(() => {
-  if (!user?.id) return;
-
-  const fetchCertificates =
-    async () => {
+    const fetchData = async () => {
       try {
-        const data =
-          await getStudentCertificates(
-            user.id
-          );
+        setLoading(true);
 
-        setCertificates(data);
+        const [enrollmentData, certificateData] =
+          await Promise.all([
+            getStudentEnrollments(user.id),
+            getStudentCertificates(user.id),
+          ]);
+
+        setEnrollments(enrollmentData);
+        setCertificates(certificateData);
       } catch (error) {
         console.error(error);
+      } finally {
+        setLoading(false);
       }
     };
 
-  fetchCertificates();
-}, [user]);
+    fetchData();
+  }, [user]);
 
+const progress = Math.min(
+  enrollments.length * 20,
+  100
+);
+if (loading) {
+  return (
+    <ProtectedRoute>
+      <div className="flex items-center justify-center min-h-screen bg-gray-50">
+        <div className="flex flex-col items-center">
+          <div className="h-12 w-12 rounded-full border-4 border-blue-500 border-t-transparent animate-spin"></div>
+
+          <p className="mt-4 text-gray-600 font-medium">
+            Loading dashboard...
+          </p>
+        </div>
+      </div>
+    </ProtectedRoute>
+  );
+}
   return (
     <ProtectedRoute>
       <div className="flex bg-gray-50 min-h-screen">
@@ -90,32 +95,39 @@ export default function StudentPage() {
 
             <StatsCard
               title="Progress"
-              value="77%"
+              value={`${progress}%`}
               color="bg-purple-100"
             />
 
             <StatsCard
-            title="Certificates"
-            value={
-               certificates.length.toString()
-             }
-             color="bg-pink-100"
-          />
+              title="Certificates"
+              value={
+                certificates.length.toString()
+              }
+              color="bg-pink-100"
+            />
 
             <StatsCard
-              title="Hours"
-              value="12"
+              title="Enrolled"
+              value={enrollments.length.toString()}
               color="bg-blue-100"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-6 mt-8">
-            <ContinueLearning />
-            <RecentCertificates />
+            <ContinueLearning
+              enrollments={enrollments}
+            />
+            <RecentCertificates
+              certificates={certificates}
+            />
           </div>
 
           <div className="mt-8">
-            <RecentActivity />
+            <RecentActivity
+              enrollments={enrollments}
+              certificates={certificates}
+            />
           </div>
 
           <div className="mt-8">

@@ -12,12 +12,21 @@ export const getStudentCertificates =
 
     return response.data;
   };
-  export const getCertificateById =
+
+export const getCertificateById =
   async (id: number) => {
     const response =
       await axios.get(
         `${API_URL}/${id}`
       );
+
+    return response.data;
+  };
+
+export const getAllCertificates =
+  async () => {
+    const response =
+      await axios.get(API_URL);
 
     return response.data;
   };

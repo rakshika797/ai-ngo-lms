@@ -84,29 +84,46 @@ export const getApplications =
           },
         });
 
-      if (
-        status === "APPROVED"
-      ) {
+      if (status === "APPROVED") {
+        // Create enrollment
         await prisma.enrollment.create({
           data: {
-            studentId:
-              application.studentId,
-            programId:
-              application.programId,
+            studentId: application.studentId,
+            programId: application.programId,
           },
         });
+
+        // Check if certificate already exists
+        const existingCertificate =
+          await prisma.certificate.findFirst({
+            where: {
+              studentId: application.studentId,
+              programId: application.programId,
+            },
+          });
+
+        // Create certificate only if it doesn't exist
+        if (!existingCertificate) {
+          await prisma.certificate.create({
+            data: {
+              studentId: application.studentId,
+              programId: application.programId,
+            },
+          });
+        }
       }
 
       res.status(200).json({
-        message:
-          "Application updated",
+        message: "Application status updated",
         application,
       });
     } catch (error) {
-      console.error(error);
+      console.error("APPLICATION STATUS ERROR:", error);
 
       res.status(500).json({
         message: "Server error",
+        error,
       });
     }
   };
+    
