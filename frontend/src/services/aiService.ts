@@ -8,8 +8,7 @@ export const analyzeSkillGap =
     desiredRole: string
   ) => {
     const response =
-      await api.post(
-        `/skill-gap`,
+      await api.post("/ai/skill-gap", 
         {
           currentSkills,
           desiredRole,
